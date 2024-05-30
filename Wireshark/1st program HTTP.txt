@@ -1,0 +1,31 @@
+4th program HTTP 
+sudo wireshark
+http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file1.html
+1) 1.1
+2)->Hypertext Transfer Protocol ----> Accept-Language: en-US,en;q=0.5\r\n
+3)<-Hypertext Transfer Protocol ----> HTTP/1.1 304 Not Modified\r\n
+4)->Hypertext Transfer Protocol ---->   If-Modified-Since: Sun, 12 May 2024 05:59:02 GMT\r\n
+5)<-Hypertext Transfer Protocol ----> Content Length : 128 r/n
+
+http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file2.html
+6)->No there is no IF-Modified-since line in GET mssg
+
+
+7)<-Line-based text data: text/html (10 lines)
+    \n
+    <html>\n
+    \n
+    Congratulations again!  Now you've downloaded the file lab2-2.html. <br>\n
+    This file's last modification date will not change.  <p>\n
+    Thus  if you download this multiple times on your browser, a complete copy <br>\n
+    will only be sent once by the server due to the inclusion of the IN-MODIFIED-SINCE<br>\n
+    field in your browser's HTTP GET request to the server.\n
+    \n
+    </html>\n
+8)<-Yes,in second HTTP message ass IF-MODIFIED-SINCE line is included. Hypertext Transfer Protocol
+    Last-Modified: Sun, 12 May 2024 05:59:02 GMT\r\n
+  
+9)<-Hypertext Transfer Protocol ---->HTTP/1.1 200 OK\r\n
+The HTTP status code returned from the server in response to the second HTTP GET is "200 OK".
+
+The server returned a "200 OK" status code, indicating that the request was successful, and the server is explicitly returning the contents of the file. This is confirmed by the presence of the "Content-Length" header in the response, which specifies the size of the content being returned (371 bytes). Additionally, there is no indication in the response that the server is providing a "304 Not Modified" status code, which would indicate that the content hasn't been modified since the specified date/time. Therefore, the server explicitly returned the contents of the file in response to the second HTTP GET request.

@@ -1,0 +1,87 @@
+3rd program HTTP 
+sudo wireshark
+ping makemytrip.com
+1)->Internet Protocol Version 4, Src: 192.168.47.128, Dst: 15.197.238.104
+2)->Internet Protocol Version 4, Src: 192.168.47.128, Dst: 15.197.238.104
+   Protocol: ICMP (1)
+3)->Internet Protocol Version 4, Src: 192.168.47.128, Dst: 15.197.238.104
+    .... 0101 = Header Length: 20 bytes (5)
+    Total Length: 84
+    payload=Totallength-IP HeaderLength = 84-20 =64 bytes
+4)->Internet Protocol Version 4, Src: 192.168.47.128, Dst: 15.197.238.104
+  Flags: 0x40, Don't fragment
+    .1.. .... = Don't fragment: Set         // dont fragment is set means it is not fragmented and there are no fragments given
+    
+5)Identifiaction,Time to live and Header checksum always change
+6)Fields that stay constant  Version,header length,Source IP,Destination IP,Differential Services,Upper layer protocol
+
+ping makemytrip.com -s 2000
+
+7) It is fragmented and its fragmented offset is 1480
+before   length 96
+after    length 562
+->Internet Protocol Version 4, Src: 192.168.47.128, Dst: 15.197.238.104
+Flags: 0x00
+    0... .... = Reserved bit: Not set
+    .0.. .... = Don't fragment: Not set
+    ..0. .... = More fragments: Not set
+...0 0101 1100 1000 = Fragment Offset: 1480
+
+8)Internet Protocol Version 4, Src: 192.168.47.128, Dst: 3.33.210.219
+ [2 IPv4 Fragments (2008 bytes): #7644(1480), #7645(528)]
+    [Frame: 7644, payload: 0-1479 (1480 bytes)]
+    [Frame: 7645, payload: 1480-2007 (528 bytes)]
+    [Fragment count: 2]
+    [Reassembled IPv4 length: 2008]
+    [Reassembled IPv4 data: 0800ad6500020001593341660000000098150c0000000000101112131415161718191a1b…]
+
+The first fragment of the fragmented IP datagram begins with the following hexadecimal sequence:
+
+0800ad6500020001593341660000000098150c000000000010111
+
+In the IP header, two main fields indicate that the datagram has been fragmented:
+
+The "Flags" field: It consists of 3 bits. Among these, the "More Fragments" (MF) bit indicates whether more fragments follow. If it is set to 1, it indicates there are more fragments. If it's 0, it suggests it's the last fragment.
+
+The "Fragment Offset" field: This field specifies the offset of the current fragment relative to the original unfragmented datagram. For the first fragment, this value is typically 0.
+
+In the given hexadecimal sequence:
+
+The "Flags" field value is 0x02, which corresponds to 00000010 in binary. The "More Fragments" bit is not set (0), indicating that this is the last fragment.
+The "Fragment Offset" field value is 0x0000, indicating that this is the first fragment.
+The length of this IP datagram is 1480 bytes.
+
+
+9)Flags: 0x00
+   
+        0... .... = Reserved bit: Not set
+        .0.. .... = Don't fragment: Not set
+        ..0. .... = More fragments: Not set       //these will indicate
+    ...0 0101 1100 1000 = Fragment Offset: 1480
+   
+
+The "Flags" field value is 0x00, which corresponds to 00000000 in binary. Here, both the "Don't Fragment" (DF) bit and the "More Fragments" (MF) bit are not set (0).
+
+Since the "More Fragments" bit is not set (0), it indicates that this is the last fragment or a single unfragmented datagram.
+The "Fragment Offset" field value is 1480, indicating the offset of this fragment relative to the original unfragmented datagram.
+
+A non-zero value for "Fragment Offset" indicates that this is not the first fragment. In this case, the offset is 1480, meaning this is not the initial fragment.
+
+10)
+    [2 IPv4 Fragments (2008 bytes): #7851(1480), #7852(528)]
+        [Frame: 7851, payload: 0-1479 (1480 bytes)]
+        [Frame: 7852, payload: 1480-2007 (528 bytes)]
+        [Fragment count: 2]
+        [Reassembled IPv4 length: 2008]
+        [Reassembled IPv4 data: 080068a800020050aa334166000000008d830a0000000000101112131415161718191a1b…]
+Internet Control Message Protocol
+
+
+The IP header fields that change between the first and second fragments are:
+
+Total Length
+Flags
+Fragment Offset
+Header Checksum
+
+   
