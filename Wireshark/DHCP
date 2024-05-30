@@ -1,0 +1,71 @@
+open terminal and type 
+sudo ip addr flush ens33   //(en33 or other name in your system)
+
+then open wireshark  sudo wireshark press 
+sudo dhclient -r
+sudo dhclient ens33
+then press bootp
+
+1. Are DHCP messages sent over UDP or TCP?
+   The DHCP messages are sent via UDP.
+   User Datagram Protocol, Src Port: 68, Dst Port: 67
+   
+2)What is the link-layer (e.g., Ethernet) address of your host?
+Ethernet II, Src: VMware_16:65:88 (00:0c:29:16:65:88), Dst: Broadcast (ff:ff:ff:ff:ff:ff)
+    Destination: Broadcast (ff:ff:ff:ff:ff:ff)
+    Source: VMware_16:65:88 (00:0c:29:16:65:88)
+    Type: IPv4 (0x0800)
+
+3)What values in the DHCP discover message differentiate this message from the DHCP request message? 
+
+DHCP Message Type
+Request includes a server identifier field
+
+4)What is the value of the Transaction-ID in each of the first four  (Discover/Offer/Request/ACK) DHCP messages? What are the values of the Transaction-ID in the second set (Request/ACK) set of DHCP messages? What is the purpose of the Transaction-ID field?
+
+24	83.592345111	192.168.47.254	192.168.47.128	DHCP	342	DHCP ACK      - Transaction ID 0xe0089102//these is it same in 1st four 
+126	399.973760064	192.168.47.254	192.168.47.1	DHCP	342	DHCP ACK      - Transaction ID 0x3a4ba5d5//in next second 
+
+5)6. A host uses DHCP to obtain an IP address, among other things. But a host’s IP address is not confirmed until the end of the four-message exchange! If the IP address is not set until the end of the four-message exchange, then what values are used in the IP datagrams in the four-message exchange? For each of the four DHCP messages (Discover/Offer/Request/ACK DHCP), indicate the source and destination IP addresses that are carried in the encapsulating IP datagram.
+
+Discover: 0.0.0.0/255.255.255.255
+Offer: 192.168.1.1/255.255.255.255
+Request: 0.0.0.0/255.255.255.255
+ACK:192.168.1.1/255.255.255.255
+
+
+6)What is the IP address of your DHCP server?
+24	83.592345111	192.168.47.254	192.168.47.128	DHCP	342	DHCP ACK      - Transaction ID 0xe0089102  //it will in ACK
+
+Option: (54) DHCP Server Identifier (192.168.47.254)
+    Length: 4
+    DHCP Server Identifier: 192.168.47.254
+
+
+7) What IP address is the DHCP server offering to your host in the DHCP Offer message? Indicate which DHCP message contains the offered DHCP address.
+
+22	83.591234512	192.168.47.254	192.168.47.128	DHCP	342	DHCP Offer    - Transaction ID 0xe0089102  //in offer
+Your (client) IP address: 192.168.47.128
+
+8)h.	What values in the trace indicate the absence of a relay agent? Is there a relay agent in your experiment? If so what is the IP address of the agent?
+22	83.591234512	192.168.47.254	192.168.47.128	DHCP	342	DHCP Offer    - Transaction ID 0xe0089102  //in offer
+
+Relay agent IP address: 0.0.0.0
+
+
+9). Explain the purpose of the lease time. How long is the lease time in your experiment?
+
+The purpose of lease time is to tell the client how long they can use the specific IP address assigned by the server before they will have to be assigned a new one.
+126	399.973760064	192.168.47.254	192.168.47.1	DHCP	342	DHCP ACK      - Transaction ID 0x3a4ba5d5//ACK
+
+
+Option: (51) IP Address Lease Time
+    Length: 4
+    IP Address Lease Time: (1800s) 30 minutes
+    
+10)What is the purpose of the DHCP release message? Does the DHCP server issue an acknowledgment of receipt of the client’s DHCP request?
+
+The DHCP release message serves the purpose of informing the DHCP server that a client no longer requires the IP address lease it previously obtained. This could happen, for example, when a device is shutting down or disconnecting from the network. By sending a release message, the client effectively relinquishes its lease on the IP address, allowing the DHCP server to reclaim it and potentially assign it to another client in need.
+
+In response to a DHCP release message, the DHCP server typically does not send an acknowledgment. This is because the release message itself serves as confirmation that the client is relinquishing the IP address. However, some DHCP implementations might send a simple acknowledgment for administrative or logging purposes, but it's not a mandatory part of the DHCP protocol.
+
