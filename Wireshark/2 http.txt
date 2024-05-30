@@ -1,0 +1,34 @@
+(2)Trace Hypertext Transfer Protocol - part II using Wireshark.
+
+1)168	36.166646801	192.168.47.128	128.119.245.12	HTTP	545	GET /wireshark-labs/HTTP-wireshark-file3.html HTTP/1.1 
+only 1 get message is sent
+
+2)170	36.397650378	128.119.245.12	192.168.47.128	HTTP	295	HTTP/1.1 304 Not Modified 
+Transmission Control Protocol, Src Port: 80, Dst Port: 39984, Seq: 1, Ack: 492, Len: 241
+ 
+    [TCP Segment Len: 241]
+   
+only 1 tcp segment is there
+
+3)170	36.397650378	128.119.245.12	192.168.47.128	HTTP	295	HTTP/1.1 304 Not Modified 
+Status Code: 304
+Phrase: Not Modified                                                                                        //there are no reassembled packets since only 1 segment is there
+
+
+4)3 messages was sent 1 for text 1 for png another for png
+748	23.148207748	192.168.47.128	34.107.221.82	HTTP	355	GET /canonical.html HTTP/1.1       //desitination address
+
+5)sending message waiting for response so it is serially  get response get response orelse parallel
+
+
+6)first it was unauthorized then it is 304 not modified so these is response
+2388	346.281947750	128.119.245.12	192.168.47.128	HTTP	293	HTTP/1.1 304 Not Modified 
+
+7)new field is in get message 
+
+2386	346.017600817	192.168.47.128	128.119.245.12	HTTP	618	GET /wireshark-labs/protected_pages/HTTP-wireshark-file5.html HTTP/1.1 
+
+that is authorizatio
+Authorization: Basic d2lyZXNoYXJrLXN0dWRlbnRzOm5ldHdvcms=\r\n
+    Credentials: wireshark-students:network
+
